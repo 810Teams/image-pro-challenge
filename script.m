@@ -8,7 +8,9 @@ close all;
 for i = 1:7
     image = imread(sprintf('img/%d.jpg', i));
     
-    if i == 5
+    if i == 4
+        processed = preprocess4(image);
+    elseif i == 5
         processed = preprocess5(image);
     elseif i == 6
         processed = preprocess6(image);
