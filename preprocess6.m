@@ -1,5 +1,6 @@
 %
-% preprocess.m
+% preprocess6.m
+% Status: Useable
 %
 
 function [g] = preprocess6(f)
