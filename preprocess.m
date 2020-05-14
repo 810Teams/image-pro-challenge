@@ -5,6 +5,7 @@
 function [g] = preprocess(f, r1, r2)
     % -- Initialize --
     g = rgb2gray(f);
+    g = imadjust(g, [0 1], [0 1]);
     g = imresize(g, r1);
     
     % -- Weiner --
@@ -17,7 +18,6 @@ function [g] = preprocess(f, r1, r2)
         estimated_nsr = noise_var / var(I(:));
         g = deconvwnr(g, PSF, estimated_nsr);
     end
-    
     % -- Final --
     g = imresize(g, r2);
     
