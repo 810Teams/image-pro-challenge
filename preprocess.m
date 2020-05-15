@@ -1,14 +1,20 @@
 %
 % preprocess.m
 %
+% Steps:
+%  - Retrieve image
+%  - Convert to grayscale
+%  - Resize with r1 scale (1.1)
+%  - Apply Weiner Filter 12 times (len = 1.015) on different angles (0 to 90 degrees)
+%  - Resize with 22 scale (1.6)
+%
 
 function [g] = preprocess(f, r1, r2)
-    % -- Initialize --
-    g = rgb2gray(f);
-    g = imadjust(g, [0 1], [0 1]);
-    g = imresize(g, r1);
+    % -- Initialization -- %
+    g = rgb2gray(f);     % Convert to grayscale
+    g = imresize(g, r1); % Resize with r1 scale (1.1)
     
-    % -- Weiner --
+    % -- Weiner Filter -- %
     % https://www.mathworks.com/help/images/ref/deconvwnr.html
     ANGLES = 12;
     for i = 0:ANGLES - 1
@@ -18,12 +24,9 @@ function [g] = preprocess(f, r1, r2)
         estimated_nsr = noise_var / var(I(:));
         g = deconvwnr(g, PSF, estimated_nsr);
     end
-    % -- Final --
-    g = imresize(g, r2);
     
-    % -- Noise Removal --
-    % g = filter2(fspecial('average',3), g)/255;
-    % g = medfilt2(g);
+    % -- Final Resize -- %
+    g = imresize(g, r2); % Resize with 22 scale (1.6)
 end
 
 
